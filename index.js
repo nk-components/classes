@@ -1,20 +1,10 @@
-/**
- * Module dependencies.
- */
+'use strict';
 
 var index = require('indexof');
 
-/**
- * Whitespace regexp.
- */
+var whitespaceRegexp = /\s+/;
+var __toString = Object.prototype.toString;
 
-var re = /\s+/;
-
-/**
- * toString reference.
- */
-
-var toString = Object.prototype.toString;
 
 /**
  * Wrap `el` in a `ClassList`.
@@ -24,7 +14,7 @@ var toString = Object.prototype.toString;
  * @api public
  */
 
-module.exports = function(el){
+module.exports = function(el) {
   return new ClassList(el);
 };
 
@@ -36,7 +26,10 @@ module.exports = function(el){
  */
 
 function ClassList(el) {
-  if (!el) throw new Error('A DOM element reference is required');
+  if (!el) {
+    throw new Error('A DOM element reference is required');
+  }
+
   this.el = el;
   this.list = el.classList;
 }
@@ -49,7 +42,7 @@ function ClassList(el) {
  * @api public
  */
 
-ClassList.prototype.add = function(name){
+ClassList.prototype.add = function(name) {
   // classList
   if (this.list) {
     this.list.add(name);
@@ -59,8 +52,13 @@ ClassList.prototype.add = function(name){
   // fallback
   var arr = this.array();
   var i = index(arr, name);
-  if (!~i) arr.push(name);
+
+  if (!~i) {
+    arr.push(name);
+  }
+
   this.el.className = arr.join(' ');
+
   return this;
 };
 
@@ -74,8 +72,8 @@ ClassList.prototype.add = function(name){
  * @api public
  */
 
-ClassList.prototype.remove = function(name){
-  if ('[object RegExp]' == toString.call(name)) {
+ClassList.prototype.remove = function(name) {
+  if ('[object RegExp]' === __toString.call(name)) {
     return this.removeMatching(name);
   }
 
@@ -88,8 +86,13 @@ ClassList.prototype.remove = function(name){
   // fallback
   var arr = this.array();
   var i = index(arr, name);
-  if (~i) arr.splice(i, 1);
+
+  if (~i) {
+    arr.splice(i, 1);
+  }
+
   this.el.className = arr.join(' ');
+
   return this;
 };
 
@@ -101,13 +104,16 @@ ClassList.prototype.remove = function(name){
  * @api private
  */
 
-ClassList.prototype.removeMatching = function(re){
+ClassList.prototype.removeMatching = function(re) {
   var arr = this.array();
-  for (var i = 0; i < arr.length; i++) {
+  var len = arr.length;
+
+  for (var i = 0; i < len; i++) {
     if (re.test(arr[i])) {
       this.remove(arr[i]);
     }
   }
+
   return this;
 };
 
@@ -119,7 +125,7 @@ ClassList.prototype.removeMatching = function(re){
  * @api public
  */
 
-ClassList.prototype.toggle = function(name){
+ClassList.prototype.toggle = function(name) {
   // classList
   if (this.list) {
     this.list.toggle(name);
@@ -132,6 +138,7 @@ ClassList.prototype.toggle = function(name){
   } else {
     this.add(name);
   }
+
   return this;
 };
 
@@ -142,10 +149,14 @@ ClassList.prototype.toggle = function(name){
  * @api public
  */
 
-ClassList.prototype.array = function(){
+ClassList.prototype.array = function() {
   var str = this.el.className.replace(/^\s+|\s+$/g, '');
-  var arr = str.split(re);
-  if ('' === arr[0]) arr.shift();
+  var arr = str.split(whitespaceRegexp);
+
+  if ('' === arr[0]) {
+    arr.shift();
+  }
+
   return arr;
 };
 
@@ -158,7 +169,7 @@ ClassList.prototype.array = function(){
  */
 
 ClassList.prototype.has =
-ClassList.prototype.contains = function(name){
+ClassList.prototype.contains = function(name) {
   return this.list
     ? this.list.contains(name)
     : !! ~index(this.array(), name);
