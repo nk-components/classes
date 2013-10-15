@@ -1,3 +1,8 @@
+2.0.0 / 2013-10-15 
+==================
+
+ * add `swap` function
+ * ability to manage the classList of an array/nodeList
 
 1.1.3 / 2013-08-02 
 ==================

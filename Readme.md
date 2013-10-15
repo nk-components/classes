@@ -6,17 +6,20 @@
 ## Installation
 
 ```
-$ component install component/classes
+$ component install nk-components/dom-classes
 ```
 
 ## Example
 
 ```js
-var classes = require('classes');
+var classes = require('dom-classes');
 classes(el)
   .add('foo')
   .toggle('bar')
   .remove(/^item-\d+/);
+ 
+classes(docuement.querySelectorAll('div'))
+   .add('hidden');
 ```
 
 ## API
@@ -32,6 +35,10 @@ classes(el)
 ### .toggle(class)
 
   Toggle `class`.
+
+### .swap(oldClass, newClass)
+
+Swap `oldClass` for `newClass`.
 
 ### .has(class)
 
