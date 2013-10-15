@@ -1,22 +1,19 @@
-<html>
-  <head>
-    <title>classes tests</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="mocha/mocha.css" />
-    <script src="mocha/mocha.js"></script>
-    <script>mocha.setup('bdd')</script>
-    <script>
-      function assert(expr, msg) {
-        if (!expr) throw new Error(msg || 'failed');
-      }
-    </script>
-  </head>
-  <body>
-    <div id="mocha"></div>
-    <script src="../build/build.js"></script>
-    <script src="classes.js"></script>
-    <script>
-      mocha.run();
-    </script>
-  </body>
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Mocha Spec Runner</title>
+  <link rel="stylesheet" href="lib/mocha/mocha.css">
+</head>
+<body>
+  <div id="mocha"></div>
+  <script src="lib/mocha/mocha.js"></script>
+  <script>mocha.setup('bdd')</script>
+  <script src="lib/chai.js"></script>
+  <script>var assert = chai.assert</script>
+  <script src="../build/build.js"></script>
+  <script src="classes.js"></script>
+
+  <script>mocha.run()</script>
+</body>
 </html>
