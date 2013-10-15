@@ -4,19 +4,66 @@ var index = require('indexof');
 
 var whitespaceRegexp = /\s+/;
 var __toString = Object.prototype.toString;
+var __slice = Array.prototype.slice;
 
 
 /**
  * Wrap `el` in a `ClassList`.
  *
- * @param {Element} el
- * @return {ClassList}
+ * @param {Element|NodeList|Array} el
+ * @return {ClassList|Collection}
  * @api public
  */
 
 module.exports = function(el) {
+  if ('[object NodeList]' === __toString.call(el)) {
+    el = __slice.call(el);
+  }
+
+  if ('[object Array]' === __toString.call(el)) {
+    return new Collection(el);
+  }
+
   return new ClassList(el);
 };
+
+/**
+ * Initialize a ClassList collection for `elmts`
+ *
+ * @param {Array} elmts
+ * @api private
+ */
+
+function Collection(elmts) {
+  var classListProto = ClassList.prototype;
+  var collectionProto = Collection.prototype;
+
+  this.lists = elmts.map(function(el) {
+    return new ClassList(el);
+  });
+
+  for (var propName in classListProto) {
+    if (classListProto.hasOwnProperty(propName)) {
+      collectionProto[propName] = (function(self, fnName) {
+        return function() {
+          var args = arguments;
+          var i = self.lists.length;
+          var arr = [];
+          var item;
+
+          while (i--) {
+            item = self.lists[i];
+            arr.push(item[fnName].apply(item, args));
+          }
+
+          return ('array' === fnName || 'has' === fnName)
+            ? arr
+            : self;
+        };
+      }(this, propName));
+    }
+  }
+}
 
 /**
  * Initialize a new ClassList for `el`.
