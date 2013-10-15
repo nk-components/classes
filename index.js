@@ -143,6 +143,19 @@ ClassList.prototype.toggle = function(name) {
 };
 
 /**
+ * Swap `classA` for `classB`.
+ *
+ * @param {String} oldClass
+ * @param {String} newClass
+ * @return {ClassList}
+ * @api public
+ */
+
+ClassList.prototype.swap = function(oldClass, newClass){
+  return this.remove(oldClass).add(newClass);
+};
+
+/**
  * Return an array of classes.
  *
  * @return {Array}
