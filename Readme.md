@@ -18,7 +18,7 @@ classes(el)
   .toggle('bar')
   .remove(/^item-\d+/);
  
-classes(docuement.querySelectorAll('div'))
+classes(document.querySelectorAll('div'))
    .add('hidden');
 ```
 
